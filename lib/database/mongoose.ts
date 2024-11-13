@@ -1,3 +1,4 @@
+import { log } from "console";
 import mongoose, { Mongoose } from "mongoose";
 
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -19,6 +20,8 @@ export const connectToDatabase = async () => {
     if (cached.conn) return cached.conn
 
     if (!MONGODB_URL) throw new Error('Missing MONGODB_URL')
+    
+    console.log('Connecting to MongoDB...')
 
     cached.promise =
         cached.promise ||
@@ -28,6 +31,8 @@ export const connectToDatabase = async () => {
         })
 
     cached.conn = await cached.promise;
+
+    if (cached.conn) console.log('Connected to MongoDB')
 
     return cached.conn;
 }
